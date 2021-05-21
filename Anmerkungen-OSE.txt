@@ -1,0 +1,15 @@
+Um unsere Ordnerstruktur zu verwenden, so müssen die Parser in <BONNETAL>/train/tasks/segmentation/dataset/<DATASET>/parser.py angepasst werden.
+Fehler: AttributeError: module 'tensorflow._api.v1.summary' has no attribute 'create_file_writer'
+Irgendwo sind dort solche Zeilen (oder ähnlich) zu finden: 
+	self.images_root = os.path.join(root, subset, "img")
+    self.labels_root = os.path.join(root, subset, "lbl")
+Hier die Klammer geändert werden zum gewünschten Pfad. Die Klammer fügt alle ihre Parameter zu einem einzigen Pfad zusammen
+(z.B. (home,/foo/bar,folder) wird zum Pfad /home/foo/bar/folder
+
+In der Datei <BONNETAL>/train/common/logger.py muss der call "create_file_writer(log_dir)" ausgetauscht werden, sofern dieser Fehler bereitet.
+Alternativer Call, welcher funktioniert: "FileWriter(log_dir)"
+
+In der Datei <BONNETAL>/train/tasks/segmentation/modules/trainer.py: Zeilen 365 und 383 zu diesen hier ändern:
+ Z 365: avg_backbone[key] = avg_backbone[key] + (backbone[key] / float(len(self.best_backbones)))
+ Z 383: avg_decoder[key] =  avg_decoder[key] + (decoder[key] / float(len(self.best_decoders)))
+ GRund: Syntax von Bonnetal ist nicht kompatibel mit neueren Python Versionen
