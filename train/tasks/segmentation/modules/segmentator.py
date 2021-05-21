@@ -32,10 +32,15 @@ class Segmentator(nn.Module):
 
     # do a pass of the backbone to initialize the skip connections
     stub = torch.zeros((1, 3, self.backbone_cfg.h, self.backbone_cfg.w))
+    # Alter code: Z39:  _, skips = self.backbone(stub)
     if torch.cuda.is_available():
       self.backbone.cuda()
       stub = stub.cuda()
     _, skips = self.backbone(stub)
+    #Alt: _, skips = self.backbone(stub)
+    #Folgendes soll angeblich bei OOM Fehlern helfen, tuts aber nicht...
+    #with torch.no_grad():
+      #_, skips = self.backbone(stub)
 
     decoderModule = imp.load_source("decoderModule",
                                     booger.TRAIN_PATH + '/tasks/segmentation/decoders/' +

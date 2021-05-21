@@ -1,0 +1,38 @@
+----------
+INTERFACE:
+config yaml:  /media/oliver/Data/Ubuntu/mowro/Bonnetal_Config/person-ai/mobilenetv2_aspprasen_persons.yaml
+log dir /media/oliver/Data/Ubuntu/mowro/Bonnetal_Config/person-ai/train-logs/
+model path None
+eval only False
+No batchnorm False
+----------
+
+Commit hash (training version):  b'f0a2022'
+----------
+
+Opening config file /media/oliver/Data/Ubuntu/mowro/Bonnetal_Config/person-ai/mobilenetv2_aspprasen_persons.yaml
+No pretrained directory found.
+Copying files to /media/oliver/Data/Ubuntu/mowro/Bonnetal_Config/person-ai/train-logs/ for further reference.
+Pytorch version: 1.9.0a0+git5439977
+Images from:  /media/oliver/Data/Ubuntu/mowro/datasets/person-ai/rgb/train
+Labels from:  /media/oliver/Data/Ubuntu/mowro/datasets/person-ai/mask/train
+Inference batch size:  1
+Pytorch version: 1.9.0a0+git5439977
+Images from:  /media/oliver/Data/Ubuntu/mowro/datasets/person-ai/rgb/test
+Labels from:  /media/oliver/Data/Ubuntu/mowro/datasets/person-ai/mask/test
+Original OS:  32
+New OS:  2.0
+Trying to get backbone weights online from Bonnetal server.
+Using pretrained weights from bonnetal server for backbone
+UNKNOWN RATE FOR OS:  2 USING DEFAULT
+[Decoder] os:  1 in:  32 skip: 3 out:  16
+Using normalized weights as bias for head.
+No path to pretrained, using bonnetal Imagenet backbone weights and random decoder.
+Total number of parameters:  2113170
+Total number of parameters requires_grad:  2113170
+Param encoder  1812800
+Param decoder  300336
+Param head  34
+Training in device:  cuda
+[IOU EVAL] IGNORE:  tensor([], dtype=torch.int64)
+[IOU EVAL] INCLUDE:  tensor([0, 1])

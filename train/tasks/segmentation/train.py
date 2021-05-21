@@ -9,10 +9,12 @@ from shutil import copyfile
 import os
 import shutil
 import __init__ as booger
+import tensorflow.compat.v1 as tf
 
 from tasks.segmentation.modules.trainer import *
 
 if __name__ == '__main__':
+  tf.disable_v2_behavior()
   parser = argparse.ArgumentParser("./train.py")
   parser.add_argument(
       '--cfg', '-c',
