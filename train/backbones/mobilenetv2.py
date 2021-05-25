@@ -62,6 +62,8 @@ class Backbone(nn.Module):
         self.new_layers[i][4] *= self.current_d
 
       # check that the output stride mod worked
+      print("current_os: " + str(current_os))
+      print("OS: " + str(OS))
       assert current_os == OS
 
     # check input sizes to see if strides will be valid (0=h, 1=w)

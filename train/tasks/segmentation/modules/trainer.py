@@ -17,6 +17,9 @@ import cv2
 import os
 import numpy as np
 
+#Added by Us (Olli)
+import gc
+
 from common.logger import Logger
 from backbones.config import *
 from common.avgmeter import *
@@ -359,8 +362,7 @@ class Trainer():
               if i == 0:
                 avg_backbone[key].data.zero_()
               # then sum the avg contribution
-              avg_backbone[key] += backbone[key] / \
-                  float(len(self.best_backbones))
+              avg_backbone[key] = avg_backbone[key] + (backbone[key] / float(len(self.best_backbones)))
 
           # append current backbone to its circular buffer
           current_decoder = self.model_single.decoder.state_dict()
@@ -377,8 +379,7 @@ class Trainer():
               if i == 0:
                 avg_decoder[key].data.zero_()
               # then sum the avg contribution
-              avg_decoder[key] += decoder[key] / \
-                  float(len(self.best_decoders))
+              avg_decoder[key] =  avg_decoder[key] + (decoder[key] / float(len(self.best_decoders)))
 
           # append current head to its circular buffer
           current_head = self.model_single.head.state_dict()
@@ -450,6 +451,9 @@ class Trainer():
 
     # empty the cache to train now
     if self.gpu:
+      #Added by us
+      gc.collect()
+      
       torch.cuda.empty_cache()
 
     # switch to train mode
@@ -547,6 +551,9 @@ class Trainer():
 
     # empty the cache to infer in high res
     if self.gpu:
+      #Added by us
+      gc.collect()
+      
       torch.cuda.empty_cache()
 
     with torch.no_grad():

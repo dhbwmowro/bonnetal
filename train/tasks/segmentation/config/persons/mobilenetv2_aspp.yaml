@@ -1,75 +1,71 @@
-# training parameters
-train:
-  loss: "xentropy"       # must be either xentropy or iou
-  max_epochs: 300
-  max_lr: 0.01           # sgd learning rate max
-  min_lr: 0.001          # warmup initial learning rate
-  up_epochs: 0.5         # warmup during first XX epochs (can be float)
-  down_epochs:  30       # warmdown during second XX epochs  (can be float)
-  max_momentum: 0.9      # sgd momentum max when lr is mim
-  min_momentum: 0.85     # sgd momentum min when lr is max
-  final_decay: 0.995     # learning rate decay per epoch after initial cycle (from min lr)
-  w_decay: 0.0005        # weight decay
-  batch_size: 48         # batch size
-  report_batch: 1        # every x batches, report loss
-  report_epoch: 1        # every x epochs, report validation set
-  save_summary: False    # Summary of weight histograms for tensorboard
-  save_imgs: True        # False doesn't save anything, True saves some 
-                         # sample images (one per batch of the last calculated batch)
-                         # in log folder
-  avg_N: 3               # average the N best models
-  crop_prop:
-    height: 480
-    width: 480
-
-# backbone parameters
 backbone:
-  name: "mobilenetv2"
-  dropout: 0.02
+  OS: 16
   bn_d: 0.05
-  OS: 16 # output stride
-  train: True # train backbone?
+  dropout: 0.02
   extra:
+    shallow_feats: true
     width_mult: 1.0
-    shallow_feats: True # get features before the last layer (mn2)
-
-decoder:
-  name: "aspp_progressive"
-  dropout: 0.02
-  bn_d: 0.05
-  train: True # train decoder?
-  extra:
-    aspp_channels: 32
-    last_channels: 16
-
-# classification head parameters
-head:
-  name: "segmentation"
-  dropout: 0.1
-
-# dataset (to find parser)
+  name: mobilenetv2
+  train: true
 dataset:
-  name: "persons"
-  location: "/cache/datasets/persons/dataset"
-  workers: 3 # number of threads to get data
-  img_means: #rgb
-    - 0.46992042
-    - 0.45250652
-    - 0.42510188
-  img_stds: #rgb
-    - 0.29184756
-    - 0.28221624
-    - 0.29719201
+  color_map:
+    0:
+    - 0
+    - 0
+    - 0
+    1:
+    - 60
+    - 20
+    - 220
+  img_means:
+  - 0.47709312988745783
+  - 0.4643970602527784
+  - 0.4446694214593004
   img_prop:
-    width: 640
-    height: 480
     depth: 3
+    height: 480
+    width: 640
+  img_stds:
+  - 0.30698397568100977
+  - 0.29866009782488506
+  - 0.3047567782775573
   labels:
-    0: 'background'
-    1: 'person'
+    0: background
+    1: person
   labels_w:
     0: 1.0
     1: 1.0
-  color_map: # bgr
-    0: [0,0,0]
-    1: [0,255,0]
+  location: /media/oliver/Data/Ubuntu/mowro/datasets/person-ai/
+  name: persons-mowro
+  workers: 3
+decoder:
+  bn_d: 0.05
+  dropout: 0.02
+  extra:
+    aspp_channels: 32
+    last_channels: 16
+  name: aspp_progressive
+  train: true
+head:
+  dropout: 0.1
+  name: segmentation
+train:
+  avg_N: 3
+  batch_size: 12
+  crop_prop:
+    height: 480
+    width: 480
+  down_epochs: 30
+  final_decay: 0.995
+  loss: xentropy
+  max_epochs: 300
+  max_lr: 0.01
+  max_momentum: 0.9
+  min_lr: 0.001
+  min_momentum: 0.85
+  report_batch: 1
+  report_epoch: 1
+  save_imgs: true
+  save_summary: true
+  up_epochs: 0.5
+  w_decay: 0.0005
